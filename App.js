@@ -80,6 +80,16 @@ export default function App() {
           </Text>
         </View>
         <View style={{paddingHorizontal: "5%", flexDirection: "row", justifyContent: "space-between"}}>
+          <Button
+          title={numberAllowed ? "Numbers On" : "Numbers Off"}
+          color={numberAllowed ? "green" : "red"}
+          onPress={() => setNumberAllowed(!numberAllowed)}
+          />
+          <Button
+          title={symbolAllowed ? "Symbols On" : "Symbols Off"}
+          color={numberAllowed ? "green" : "red"}
+          onPress={() => setSymbolAllowed(!symbolAllowed)}
+          />
         </View>
       </SafeAreaView>
     </SafeAreaProvider>
