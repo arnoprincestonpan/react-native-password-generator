@@ -1,7 +1,8 @@
-import { StyleSheet, Text, TextInput, View, Button} from 'react-native';
+import { StyleSheet, Text, TextInput, View, Button, Alert} from 'react-native';
 import { SafeAreaView, SafeAreaProvider } from 'react-native-safe-area-context';
 import Slider from '@react-native-community/slider';
 import { useState, useCallback, useEffect, useRef } from 'react';
+import * as Clipboard from 'expo-clipboard';
 
 export default function App() {
 
@@ -34,9 +35,14 @@ export default function App() {
     console.log(password);
   }, [length, numberAllowed, symbolAllowed]);
 
-  const copyToClipboard = () => {
-    window.navigator.clipboard.writeText(password);
-    passwordRef.current?.select();
+  const copyToClipboard = async() => {
+    try {
+      await Clipboard.setStringAsync(password);
+      console.log(Clipboard.getStringAsync(password));
+      Alert.alert("Copied!", "Password copied to clipboard.");
+    } catch (error){
+      Alert.alert("Error", "Could not copy passsword.");
+    }
   }
 
   const Separator = () => <View style={styles.separator}/>
