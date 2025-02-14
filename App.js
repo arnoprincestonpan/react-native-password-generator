@@ -1,15 +1,32 @@
 import { StyleSheet, Text, TextInput, View, Button} from 'react-native';
 import { SafeAreaView, SafeAreaProvider } from 'react-native-safe-area-context';
 import Slider from '@react-native-community/slider';
-import { useState, useMemo } from 'react';
+import { useState } from 'react';
 
 export default function App() {
 
-  const [password, setNewPassword] = useState("");
+  const [password, setPassword] = useState("");
   const [length, setLength] = useState(12);
   const [numberAllowed, setNumberAllowed] = useState(true);
   const [symbolAllowed, setSymbolAllowed] = useState(true);
 
+  const generatePassword = () => {
+    let password = "";
+    let str = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz";
+
+    const numbers = "1234567890";
+    const symbols = "~!@#$%^&*()_+|";
+
+    if(numberAllowed) str+=numbers;
+    if(symbolAllowed) str+=symbols;
+
+    for(let i = 0; i <= length; i++){
+      // password += str[Math.floor(Math.random() * str.length)];
+      password += str.charAt(Math.floor(Math.random() * str.length + 1));
+    }
+
+    setPassword(password);
+  }
 
   const Separator = () => <View style={styles.separator}/>
 
@@ -52,6 +69,7 @@ export default function App() {
             maximumValue={64}
             minimumTrackTintColor={"orange"}
             maximumTrackTintColor={"brown"}
+            onValueChange={() => generatePassword()}
           />
           <Text style={{fontSize: 24, paddingHorizontal: "10%"}}>
             #
