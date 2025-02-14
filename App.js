@@ -1,7 +1,7 @@
 import { StyleSheet, Text, TextInput, View, Button} from 'react-native';
 import { SafeAreaView, SafeAreaProvider } from 'react-native-safe-area-context';
 import Slider from '@react-native-community/slider';
-import { useState, useCallback, useEffect } from 'react';
+import { useState, useCallback, useEffect, useRef } from 'react';
 
 export default function App() {
 
@@ -9,6 +9,8 @@ export default function App() {
   const [length, setLength] = useState(12);
   const [numberAllowed, setNumberAllowed] = useState(true);
   const [symbolAllowed, setSymbolAllowed] = useState(true);
+
+  const passwordRef = useRef(null);
 
   const generatePassword = useCallback(() => {
     let password = "";
@@ -31,6 +33,11 @@ export default function App() {
     generatePassword();
     console.log(password);
   }, [length, numberAllowed, symbolAllowed]);
+
+  const copyToClipboard = () => {
+    window.navigator.clipboard.writeText(password);
+    passwordRef.current?.select();
+  }
 
   const Separator = () => <View style={styles.separator}/>
 
@@ -56,6 +63,7 @@ export default function App() {
             value={password}
             readOnly
             
+            ref={passwordRef}
             />
           </View>
           <Button
@@ -63,6 +71,7 @@ export default function App() {
           title="Copy"
           color="brown"
           accessibilityLabel='Press to Copy Password to ClipBoard'
+          onPress={() => copyToClipboard()}
           />
         </View>
         <Separator/>
